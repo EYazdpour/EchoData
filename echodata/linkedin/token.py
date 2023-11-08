@@ -1,7 +1,10 @@
-from common.models.token import Token
-import requests
 import configparser
 from datetime import time
+
+import requests
+
+from ..common.models.token import Token
+
 
 class LinkedInToken(Token):
     def __init__(self, scope:str, value:str, expiration_timestamp:str, refresh_value:str, refresh_expiration_timestamp:str):
