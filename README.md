@@ -1,4 +1,3 @@
-```markdown
 # EchoData
 
 EchoData is a robust toolkit for LinkedIn analytics and reporting. Designed to facilitate seamless interaction with LinkedIn's API, EchoData allows for efficient tracking of campaign performance, professional networking activities, and more.
