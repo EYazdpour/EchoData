@@ -1,4 +1,4 @@
-from echodata.linkedin.auth import generate_auth_url
+from echodata.linkedin.auth import generate_auth_url, exchange_code_for_token
 import configparser
 import os
 
@@ -18,10 +18,16 @@ def main():
     redirect_uri = config['LinkedIn Credentials']['REDIRECT_URI']
 
     # Step 1: Get the user to visit this URL and authenticate
-    auth_url = generate_auth_url(client_id=client_id, client_secret=client_secret, redirect_uri=redirect_uri)
+    auth_url = generate_auth_url(client_id=client_id, redirect_uri=redirect_uri)
     print(f"Please visit this URL and authenticate:\n{auth_url}")
 
-    # Additional code to handle the redirect and extract the code goes here
+    # Step 2: Wait for the user to enter the authorization code
+    auth_code = input("Please enter the authorization code you received: ")
+
+    # Step 3: Exchange the code for a token & save it in the config.ini file
+    LI_token = exchange_code_for_token(client_id=client_id, client_secret=client_secret, auth_code=auth_code, redirect_uri=redirect_uri)
+    print(f"Access Token: {LI_token}")
+    LI_token.save_to_config_ini(config_path)
 
 # Check if we are running as a script, not imported as a module
 if __name__ == "__main__":
