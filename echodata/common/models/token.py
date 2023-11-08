@@ -65,7 +65,6 @@ class Token(ABC):
         except Exception as e:
             print(f"An unexpected error occurred: {e}")
 
-    @abstractmethod
     def to_config_ini(self):
         # This is an abstract method that must be implemented by child classes
         pass
@@ -90,8 +89,6 @@ class Token(ABC):
     def __repr__(self):
         return f"Token(value='{self.value}', expires_at='{self.expires_at}')"
 
-
-    @abstractmethod
     def is_valid(self):
         # This is an abstract method that must be implemented by child classes
         pass
