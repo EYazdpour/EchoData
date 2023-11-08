@@ -6,21 +6,29 @@ from datetime import datetime
 
 
 class Token(ABC):
-    def __init__(self, value:str, expires_at:str):
+    def __init__(self, value:str, expiration_timestamp:str):
         self.__value= value
-        self.__expires_at = float(expires_at)
+        self.__expiration_timestamp = float(expiration_timestamp)
 
     @property
     def value(self) -> str:
         return self.__value
 
+    @value.setter
+    def value(self,value:str):
+        self.__value = value
+
     @property
     def expiration_timestamp(self) -> float:
-        return self.__expires_at
+        return self.__expiration_timestamp
+
+    @expiration_timestamp.setter
+    def expiration_timestamp(self,expiration_timestamp:str):
+        self.__expiration_timestamp = float(expiration_timestamp)
 
     @property
     def expires_at(self) -> datetime:
-        return datetime.fromtimestamp(self.__expires_at)
+        return datetime.fromtimestamp(self.__expiration_timestamp)
 
     @property
     def is_expired(self) -> bool:
