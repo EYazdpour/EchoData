@@ -79,3 +79,26 @@ class LinkedInToken(Token):
 
         else:
             raise Exception(f'Failed to refresh access token. Status code: {response.status_code}')
+
+    def revoke(self, client_id, client_secret):
+        revoke_url = f'https://api.linkedin.com/oauth/v2/revoke'
+        headers = {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        }
+
+        data = {
+            'grant_type': 'revoke',
+            'client_id': client_id,
+            'client_secret': client_secret,
+            'token': self.value
+        }
+        response = requests.post(revoke_url, headers=headers, data=data)
+        if response.status_code == 200:
+            self.value = None
+            self.scope = None
+            self.expiration_timestamp = None
+            self.refresh_token = None
+
+            return "Access token has been revoked successfully."
+        else:
+            raise Exception(f"Failed to revoke access token. Response: {response.content}\nResponse Code: {response.status_code}")
