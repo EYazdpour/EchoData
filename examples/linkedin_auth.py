@@ -1,4 +1,5 @@
 from echodata.linkedin.auth import generate_auth_url, exchange_code_for_token
+from echodata.linkedin.token import LinkedInToken
 import configparser
 import os
 
@@ -12,7 +13,7 @@ config_path = os.path.join(script_directory, "config.ini")
 config = configparser.ConfigParser()
 config.read(config_path)
 
-def main():
+def create_new_token():
     client_id = config['LinkedIn Credentials']['CLIENT_ID']
     client_secret = config['LinkedIn Credentials']['CLIENT_SECRET']
     redirect_uri = config['LinkedIn Credentials']['REDIRECT_URI']
@@ -29,6 +30,15 @@ def main():
     print(f"Access Token: {LI_token}")
     LI_token.save_to_config_ini(config_path)
 
+def revoke_existing_token():
+    LI_token = LinkedInToken(scope=config['LinkedIn Token']['scope'],value=config['LinkedIn Token']['value'],expiration_timestamp=config['LinkedIn Token']['expiration_timestamp'],refresh_value=config['LinkedIn Refresh Token']['value'], refresh_expiration_timestamp=config['LinkedIn Refresh Token']['expiration_timestamp'])
+    client_id = config['LinkedIn Credentials']['CLIENT_ID']
+    client_secret = config['LinkedIn Credentials']['CLIENT_SECRET']
+    print(f"Is the token valid? {LI_token.is_valid}")
+    #print(LI_token.revoke(client_id, client_secret))
+
+
 # Check if we are running as a script, not imported as a module
 if __name__ == "__main__":
-    main()
+    #create_new_token()
+    revoke_existing_token()
