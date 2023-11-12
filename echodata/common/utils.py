@@ -31,6 +31,7 @@ def make_request(url: str, method: str = 'GET', headers: Optional[Dict[str, str]
     else:
         return response.json()  # Parse JSON response and return it
 
+
 def retry(max_retries=3, delay=1, exceptions=(Exception,)):
     def decorator(func):
         def wrapper(*args, **kwargs):
